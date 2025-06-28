@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from sqlalchemy.orm import validates
 
 # ==================================================
 # インスタンス生成
@@ -42,6 +43,12 @@ class Task(db.Model):
     # 表示用
     def __str__(self):
         return f'課題ID：{self.id} 内容：{self.content}'
+    
+    @validates("content")
+    def validate_content(self, key, value):
+        if len(value) < 3:
+            raise ValueError("タスク名は3文字以上である必要があります")
+        return value
 
 # ==================================================
 # ルーティング
@@ -62,13 +69,16 @@ def new_task():
     if request.method == 'POST':
         # 入力値取得
         content = request.form['content']
-        # インスタンス生成
-        task = Task(content=content)
-        # 登録
-        db.session.add(task)
-        db.session.commit()
-        # 一覧へ
-        return redirect(url_for('index'))
+        try:
+            # インスタンス生成
+            task = Task(content=content)
+            # 登録
+            db.session.add(task)
+            db.session.commit()
+            # 一覧へ
+            return redirect(url_for('index'))
+        except ValueError as e:
+            return render_template('new_task.html', error=str(e), content=content)
     # GET
     return render_template('new_task.html')
 

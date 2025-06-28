@@ -6,6 +6,12 @@
 </head>
 <body>
     <div class="container">
+        {% if error %}
+        <div style="color: red;">
+            === エラーメッセージ ===<br>
+            {{ error }}
+        </div>
+        {% endif %}
         <h1>新規課題</h1>
         <form method="POST" action="{{ url_for('new_task') }}">
             <label for="content">課題内容:</label><br>
