@@ -67,8 +67,8 @@ a.button {
     width: 200px;
 }
 
-/* 完了・戻すボタンのスタイル */
-.complete-button, .uncomplete-button {
+/* 完了・戻す・削除・更新ボタンのスタイル */
+.complete-button, .uncomplete-button, .delete-button, .update-button{
      /* 背景色を緑 */
     background-color: green;
     /* ボーダーなし */
@@ -90,6 +90,16 @@ a.button {
 .uncomplete-button {
      /* 背景色を赤 */
     background-color: red;
+}
+
+.delete-button {
+     /* 背景色を青 */
+    background-color: blue;
+}
+
+.update-button {
+     /* 背景色を茶 */
+    background-color: brown;
 }
 
 /* 課題一覧・完了した課題一覧のスタイル */

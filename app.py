@@ -102,6 +102,36 @@ def uncomplete_task(task_id):
     db.session.commit()
     return redirect(url_for('index'))
 
+# 削除
+@app.route('/tasks/<int:task_id>/delete', methods=['POST'])
+def delete_task(task_id):
+    # 対象データ取得
+    task = Task.query.get(task_id)
+    # 対象データを削除
+    db.session.delete(task)
+    db.session.commit()
+    return redirect(url_for('index'))
+
+#更新
+@app.route('/tasks/<int:task_id>/update', methods=['GET', 'POST'])
+def update_task(task_id):
+    # 対象データ取得
+    task = Task.query.get(task_id)
+    # POST
+    if request.method == 'POST':
+        # 入力値取得
+        content = request.form['content']
+        try:
+            # タスク名を更新
+            task.content = content
+            db.session.commit()
+            # 一覧へ
+            return redirect(url_for('index'))
+        except ValueError as e:
+            return render_template('update_task.html', task=task, error=str(e))
+    # GET
+    return render_template('update_task.html', task=task)
+
 # ==================================================
 # 実行
 # ==================================================

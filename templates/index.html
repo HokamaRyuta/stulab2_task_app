@@ -13,8 +13,14 @@
             {% for task in uncompleted_tasks %}
             <div>
                 <p>{{ task.content }}</p>
-                <form method="post" action="{{ url_for('complete_task', task_id=task.id) }}">
+                <form method="post" action="{{ url_for('complete_task', task_id=task.id) }}" style="display: inline;">
                     <button type="submit" class="complete-button">完了</button>
+                </form>
+                <form method="post" action="{{ url_for('delete_task', task_id=task.id) }}" style="display: inline;">
+                    <button type="submit" class="delete-button">削除</button>
+                </form>
+                <form method="get" action="{{ url_for('update_task', task_id=task.id) }}" style="display: inline;">
+                    <button type="submit" class="update-button">更新</button>
                 </form>
             </div>
             {% endfor %}
